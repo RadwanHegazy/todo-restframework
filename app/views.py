@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Todo
@@ -26,3 +27,31 @@ def home (request) :
 
 
 
+
+@api_view(['GET','PUT','DELETE'])
+def edit_todo (request, todoid) : 
+
+    todo = get_object_or_404(Todo, id = todoid)
+
+    if request.method == "GET" :
+        serilaizer = TodoSerializer(todo)
+        sts = status.HTTP_200_OK
+
+    elif request.method == "PUT" :
+
+        serilaizer = TodoSerializer(todo,data = request.data)
+        
+        if serilaizer.is_valid():
+            serilaizer.save()
+            sts = status.HTTP_200_OK
+        else :
+            sts = status.HTTP_400_BAD_REQUEST
+        
+            return Response (serilaizer.errors,status=sts)
+
+    elif request.method == "DELETE" :
+        todo.delete()
+        return Response(status=status.HTTP_202_ACCEPTED)
+    
+
+    return Response(serilaizer.data,status=sts)

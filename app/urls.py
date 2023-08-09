@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
 
-    path('',views.home,name='home')
+    path('',views.home,name='home'),
+    path('edit/<int:todoid>/',views.edit_todo,name='edit'),
+
 
 ]
