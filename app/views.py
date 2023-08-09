@@ -13,5 +13,3 @@ def home (request) :
     return Response(serializer.data)
 
 
-# @api_view(['POST'])
-# def create_todo (request) :
